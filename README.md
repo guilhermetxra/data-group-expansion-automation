@@ -2,11 +2,11 @@
 
 ## Overview
 
-This project automates the expansion of grouped records in Google Sheets using Google Apps Script.
+This project automates the standardization of grouped records in Google Sheets using Google Apps Script.
 
-The original operation was structured around a fixed number of records per group. A new requirement demanded that every group contain six records while preserving the existing operational structure.
+The original operation was structured around a smaller number of records per group. A new requirement demanded that every group contain six records while preserving the existing operational structure and data organization.
 
-Instead of manually adjusting thousands of rows, the process was automated to ensure consistency, scalability and data integrity.
+Instead of manually adjusting thousands of rows, the process was automated to improve consistency, scalability, and data integrity.
 
 ---
 
@@ -14,47 +14,98 @@ Instead of manually adjusting thousands of rows, the process was automated to en
 
 The dataset was organized into groups identified by a common key.
 
-Each group could contain a different number of records, but all groups needed to be standardized to six records.
+Each group could contain a different number of records, but all groups needed to be standardized to six records without altering the original information.
 
 The solution had to:
 
-- Preserve existing data.
-- Maintain record order.
-- Avoid modifying valid information.
-- Add only the missing records.
-- Scale efficiently for large datasets.
+* Preserve existing records.
+* Maintain record order.
+* Avoid modifying valid information.
+* Add only the missing records.
+* Scale efficiently for large datasets.
+* Ensure data integrity after processing.
 
 ---
 
 ## Solution
 
-The script performs the following steps:
+The project is divided into two complementary stages.
 
-1. Reads all spreadsheet data into memory.
-2. Identifies groups based on a shared identifier.
-3. Preserves all original records.
-4. Calculates how many records are missing.
-5. Creates only the necessary rows.
-6. Writes the final result back to the spreadsheet in a single operation.
+### 1. Group Expansion
 
-This approach prevents row-shifting issues and improves performance when processing large spreadsheets.
+Responsible for identifying grouped records and automatically expanding them until they reach the required quantity.
+
+Main file:
+
+`src/completarRegistrosPorGrupo.js`
+
+Features:
+
+* Reads spreadsheet data into memory.
+* Identifies records belonging to the same group.
+* Preserves existing information.
+* Inserts only the missing records.
+* Updates the spreadsheet in a single operation.
+
+### 2. Data Integrity Validation
+
+Responsible for validating the processed dataset after expansion.
+
+Main file:
+
+`src/validarIntegridade.js`
+
+Validation checks:
+
+* Header consistency.
+* Group count verification.
+* Record order preservation.
+* Original data comparison.
+* Detection of missing or duplicated records.
+* Validation of newly inserted rows.
+
+Together, these modules create a complete workflow for data transformation and integrity verification.
+
+---
+
+## Workflow
+
+Original Dataset
+
+↓
+
+Group Expansion
+
+↓
+
+Processed Dataset
+
+↓
+
+Integrity Validation
+
+↓
+
+Final Verification
 
 ---
 
 ## Technologies
 
-- JavaScript
-- Google Apps Script
-- Google Sheets
+* JavaScript
+* Google Apps Script
+* Google Sheets
 
 ---
 
 ## Results
 
-- Reduced manual work.
-- Increased operational reliability.
-- Improved scalability.
-- Eliminated repetitive spreadsheet adjustments.
+* Reduced manual work.
+* Increased operational reliability.
+* Improved scalability.
+* Eliminated repetitive spreadsheet adjustments.
+* Added automated integrity validation.
+* Reduced the risk of human error during data processing.
 
 ---
 
@@ -62,22 +113,32 @@ This approach prevents row-shifting issues and improves performance when process
 
 ### Before
 
-| Group | Data |
-|---------|---------|
-| A | Value |
-| A | Value |
-| A | Value |
+| Group | Data  |
+| ----- | ----- |
+| A     | Value |
+| A     | Value |
+| A     | Value |
 
 ### After
 
-| Group | Data |
-|---------|---------|
-| A | Value |
-| A | Value |
-| A | Value |
-| A | |
-| A | |
-| A | |
+| Group | Data  |
+| ----- | ----- |
+| A     | Value |
+| A     | Value |
+| A     | Value |
+| A     |       |
+| A     |       |
+| A     |       |
+
+---
+
+## Repository Structure
+
+```text
+src/
+├── completarRegistrosPorGrupo.js
+└── validarIntegridade.js
+```
 
 ---
 
